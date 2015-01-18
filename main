@@ -1,0 +1,303 @@
+/*
+    ~A 078emil Productions~
+
+    A Simple ATM Machine program.
+    It include:
+                Starting Balance
+                Change Currency
+                Balance change
+                Withdraw and deposit
+                Default Password
+                Change Password
+                Login/logout
+                Hide the password after it has been typed wrong
+
+    This was created for fun in my spare time. You are welcome to
+    get inspiration and use the code for your own use WITH reference.
+
+    NODE:
+            This is not a secure program at all! It was not meant to
+            be at all. Therefore, do not use it in any situation where
+            security is vital!
+*/
+
+#include <iostream>
+#include <windows.h>
+#include <string>
+#include <conio.h>
+#include <iomanip>
+
+using namespace std;
+
+float currentBalance = 2000;    //The default balance
+string passwordSet = "1234";    //The default password
+string passwordTried = "";      //To get the input from the user under the login step
+string currency = "$";          //The default currency. NODE: change it will not convert the balance to another currency
+
+//Initialize the functions used in the program
+int main();
+int depositMoney();
+int withdrawMoney();
+int initialSO();
+int logonIn();
+int password();
+
+int yourBalance() //See the current balance
+{
+    int choice;
+
+    cout << "Your current balance is " << currentBalance << currency << endl;
+
+    cout << "Please select what you want to do\n";
+    cout << "1.. Main menu\n";
+    cout << "2.. Deposit money into your account\n";
+    cout << "3.. Withdraw money from your account\n";
+    cout << "9.. Logout\n";
+    cin >> choice;
+
+    switch(choice){     //The menu to choose what to do next
+    case 1:
+        system("CLS");  //Clears the screen
+        initialSO();
+        break;
+    case 2:
+        system("CLS");
+        depositMoney();
+        break;
+    case 3:
+        system("CLS");
+        withdrawMoney();
+        break;
+    case 9:
+        system("CLS");
+        logonIn();
+        break;
+    default:
+        system("CLS");
+        cout << "That is not a valid operation\n";
+        Sleep(2000);    //Pause the program 2000 milliseconds
+        system("CLS");
+        yourBalance();
+    } //end of switch
+} //end of yourBalance
+
+int depositMoney()
+{
+    float depositValue;
+    int choice;
+
+    cout << "How much do you want to deposit?\n";
+    cin >> depositValue;
+    cout << "Are you sure you want to deposit " << depositValue << currency << "?" << endl;
+    cout << "Press 1 for yes and 2 for no and return to the menu.\n";
+    cin >> choice;
+    if (choice != 1){   //The conformation to update the currentBalance
+        cout << "You choose \"2\" or an invalid command.. Returning to menu.\n";
+        system("CLS");
+        initialSO();
+    }
+    currentBalance = currentBalance + depositValue;    //Updates the currentBalance
+    cout << "Your balance is now " << currentBalance << currency << endl;
+
+
+    cout << "Please select what you want to do\n";
+    cout << "1.. Main menu\n";
+    cout << "2.. Display your balance\n";
+    cout << "3.. Withdraw money from your account\n";
+    cout << "9.. Logout\n";
+    cin >> choice;
+
+    switch(choice){     //The menu again
+    case 1:
+        system("CLS");
+        initialSO();
+        break;
+    case 2:
+        system("CLS");
+        yourBalance();
+    case 3:
+        system("CLS");
+        withdrawMoney();
+        break;
+    case 9:
+        system("CLS");
+        logonIn();
+        break;
+    default:
+        system("CLS");
+        cout << "That is not a valid operation\n";
+        Sleep(2000);
+        system("CLS");
+        initialSO();
+    } //end of switch
+} //end of depositMoney
+
+int withdrawMoney()
+{
+    int choice;
+    float withdrawValue;
+
+    cout << "What do you want to withdraw?\n";
+    cin >> withdrawValue;
+    cout << "Do yo want to withdraw " << withdrawValue << currency << "?" << endl;
+    cout << "Press 1 for yes and 2 for no and return to the menu.\n";
+    cin >> choice;
+    if (choice != 1){   //The conformation on to update the currentBalance
+        cout << "You choose \"2\" or an invalid command.. Returning to menu.\n";
+        system("CLS");
+        initialSO();
+    } // end of if
+    currentBalance = currentBalance - withdrawValue;    //Updates the currentBalance
+    cout << "Your balance is now " << currentBalance << currency << endl;
+
+    cout << "Please select what you want to do\n";
+    cout << "1.. Main menu\n";
+    cout << "2.. Display your balance\n";
+    cout << "3.. Deposit money to your account\n";
+    cout << "9.. Logout\n";
+    cin >> choice;
+
+    switch(choice){     //The menu again
+    case 1:
+        system("CLS");
+        initialSO();
+        break;
+    case 2:
+        system("CLS");
+        yourBalance();
+    case 3:
+        system("CLS");
+        depositMoney();
+        break;
+    case 9:
+        system("CLS");
+        logonIn();
+        break;
+    default:
+        system("CLS");
+        cout << "That is not a valid operation\n";
+        Sleep(2000);
+        system("CLS");
+        initialSO();
+    } //end of switch
+} //end of withdrawMoney
+
+int initialSO() //The main menu in this program
+{
+    int choice;
+
+    cout << "\aHello...\n";
+    cout << "Welcome to your personal ATM Machine\n";
+    cout << "Please select what you want to do\n";
+    cout << "1.. Display your balance\n";
+    cout << "2.. Deposit money into your account\n";
+    cout << "3.. Withdraw money from your account\n";
+    cout << "4.. Change password\n";
+    cout << "9.. Logout\n";
+    cin >> choice;
+
+    switch(choice){ //The menu again
+    case 1:
+        system("CLS");
+        yourBalance();
+        break;
+    case 2:
+        system("CLS");
+        depositMoney();
+        break;
+    case 3:
+        system("CLS");
+        withdrawMoney();
+        break;
+    case 4:
+        system("CLS");
+        password();
+        break;
+    case 9:
+        system("CLS");
+        logonIn();
+        break;
+    default:
+        system("CLS");
+        cout << "That is not a valid operation\n";
+        Sleep(2000);
+        system("CLS");
+        initialSO();
+    } //end of switch
+} //end of initialSO
+
+
+int logonIn() //The login function
+{
+    int timesTried = 1;         //The integer to keep track times tried
+    char hiddenCharacter = '*'; //The char to hide the password when wrong password is entered
+
+
+    cout << "Welcome to this ATM Machine \n";
+    cout << "Please login to continue!\n";
+
+    do{     //The  do-while loop to get the login
+        cin >> passwordTried; //Enter the password the user think it is.
+        system("CLS");        //Clears the screen to quickly hide the password
+        cout << setfill(hiddenCharacter); //Use to fill the password with '*'
+        cout << "Password tried: " << setw(passwordTried.length()) << hiddenCharacter << endl;  //Takes the length of passwordTried
+                                                                                                //and fill it with '*'
+        cout << "Number of attempts used " << timesTried << "/3" << endl; //Shows how many attempts the use have tried
+        cout << "Wrong password please try again." << endl;
+        timesTried++;   //Add 1 to timesTried to keep track of how may time the user have tried
+
+
+    }
+    while (passwordTried != passwordSet && timesTried < 4); //Will do the above on time or as long as the user types the wrong
+                                                            //password or timesTried is under 4
+
+    if (passwordTried != passwordSet){  //If the password is wrong
+        cout << "Access Denied - Police is on their way!!!!!";
+        for (int i = 1; i <= 10; ++i){
+            Beep(500,2000);             //Beep until the for loop is done
+        }//end of for
+        cin.get();      //Save  the program from termination
+        system("CLS");
+        logonIn();
+        }//end of if
+
+    else {      //If the password is correct
+        system("CLS");
+        cout << "Access Granted";
+        Sleep(2000);
+        system("CLS");
+        initialSO();
+    }//end of else
+
+}//end of logonIn
+
+int password()     // Change the password function
+{
+    string newPassword1 = "";
+    string newPassword2 = "";   //The two string used to change the password
+
+    cout << "Please enter your new password\n";
+    cin >> newPassword1;
+    cout << "Please confirm your new password\n";
+    cin >> newPassword2; //To be sure the first time was entered correctly
+
+    if ( newPassword1 == newPassword2){ //Ff the two strings are identical
+        cout << "\nYour new password have been set successfully! \nReturning to main menu";
+        passwordSet = newPassword1;     //Set it as the new password
+        system("CLS");
+        initialSO();
+    }//end of if
+    else {   //If not identical, try again
+        cout << "The two passwords are not the same.. \nPlease try again";
+        Sleep(3000);
+        system("CLS");
+        password();
+    }//end of else
+} //end of password
+
+int main() //Start of the program
+{
+    logonIn(); //got to login
+
+    return 0;
+}//end of main
